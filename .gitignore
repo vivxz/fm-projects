@@ -105,4 +105,4 @@ dist
 
 .DS_Store
 coverage/
-.vscode/
+.vscode/.DS_Store
