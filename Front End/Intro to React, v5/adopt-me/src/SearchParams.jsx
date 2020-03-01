@@ -1,13 +1,24 @@
-import React, { useState } from "react";
-import { ANIMALS } from "@frontendmasters/pet";
-import useDropdown from "./useDropdown.jsx"
-import userDropdown from "./useDropdown.jsx";
+import React, { useState, useEffect } from "react";
+import pet, { ANIMALS } from "@frontendmasters/pet";
+import useDropdown from "./useDropdown.jsx";
 
 const SearchParams = () => {
-  const [location, setLocation] = useState("San Jose, CA");
+  const [location, setLocation] = useState("San Francisco, CA");
   const [breeds, setBreeds] = useState([]);
-  const [animal, AnimalDropdown] = userDropdown("Animal", "cat", ANIMALS);
-  const [breed, BreedDropdown] = userDropdown("Breed", "", breeds)
+  const [animal, AnimalDropdown] = useDropdown("Animal", "cat", ANIMALS);
+  const [breed, BreedDropdown, setBreed] = useDropdown("Breed", "", breeds);
+
+  // Schedule to run after the render happens because you don't want to slow down the first render
+  useEffect(() => {
+    // Clears out the breeds
+    setBreeds([]);
+    setBreed("");
+
+    pet.breeds(animal).then(({ breeds: apiBreeds }) => {
+      const breedString = apiBreeds.map(({ name }) => name); // breedObj = breedObj.name
+      setBreeds(breedString);
+    }, console.error)
+  }, [animal, setBreed, setBreeds]) // adding this will rerun useEffect after it renders only when these dependencies changes
 
   return (
     <div className="search-params">
