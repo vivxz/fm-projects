@@ -4,7 +4,7 @@ import ColorBox from '../components/ColorBox';
 
 
 const ColorPalette = ({ route }) => {
-  const { paletteName, colors } = route.params;
+  const { colors } = route.params;
   return (
     <FlatList // always scroll-able
       style={styles.container}
