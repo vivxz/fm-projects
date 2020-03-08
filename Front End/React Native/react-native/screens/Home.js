@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { FlatList, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import PalettePreview from '../components/PalettePreview';
-
 
 // const SOLARIZED = [
 //   { colorName: 'Base03', hexCode: '#002b36' },
@@ -46,7 +45,8 @@ import PalettePreview from '../components/PalettePreview';
 //   { paletteName: 'Pastel', colors: PASTEL },
 // ];
 
-const Home = ({ navigation }) => {
+const Home = ({ navigation, route }) => {
+  const newColorPalette = route.params ? route.params.newColorPalette : undefined;
   const [colorPalettes, setColorPalettes] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -69,6 +69,13 @@ const Home = ({ navigation }) => {
       setIsRefreshing(false);
     }, 1000);
   }, []);
+
+  useEffect(() => {
+    if (newColorPalette) {
+      setColorPalettes(palettes => [newColorPalette, ...palettes]) // adds the new palette to the top of the array
+    }
+  }, [newColorPalette]);
+
   return (
     <FlatList
       style={styles.list}
@@ -85,7 +92,8 @@ const Home = ({ navigation }) => {
       // FlatList has a built in refresh control
       refreshing={isRefreshing}
       onRefresh={handleRefresh}
-    // refreshControl={<RefreshControl refreshing={true} onRefresh={() => {}} />} -- requires you to import RefreshControl from reactnative
+      // refreshControl={<RefreshControl refreshing={true} onRefresh={() => {}} />} -- requires you to import RefreshControl from reactnative
+      ListHeaderComponent={<TouchableOpacity onPress={() => { navigation.navigate('ColorPaletteModal') }}><Text style={styles.buttonText}>Add Color Scheme</Text></TouchableOpacity>}
     />
   );
 };
@@ -94,6 +102,12 @@ const styles = StyleSheet.create({
   list: {
     padding: 10,
     backgroundColor: 'white',
+  },
+  buttonText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: 'teal',
+    marginBottom: 10,
   }
 })
 
