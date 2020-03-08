@@ -23,7 +23,7 @@ To run this project, install it locally using yarn and expo:
     $ yarn install
     $ expo start/yarn start
 
-If you're using an android, scan the QA code within the Expo app
+If you're using an android, scan the QA code within the Expo app  
 If you're using an iOs, open the camera app to scan the QA and you'll be prompted to "open in Expo"
 
 ## Requirements
