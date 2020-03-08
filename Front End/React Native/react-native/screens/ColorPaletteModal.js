@@ -183,7 +183,7 @@ const ColorPaletteModal = ({ navigation }) => {
       <Text style={styles.name}>Name of the color palette:</Text>
       <TextInput style={styles.input} value={name} onChangeText={setName} placeholder="Palette Name" />
       <FlatList
-        data={COLORS.colorName.slice(0, 1)}
+        data={COLORS}
         keyExtractor={item => item.colorName}
         renderItem={({ item }) => <View style={styles.color}>
           <Text>{item.colorName}</Text>
