@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import pet, { ANIMALS } from "@frontendmasters/pet";
+import Results from './Results';
 import useDropdown from "./useDropdown.jsx";
 
 const SearchParams = () => {
@@ -7,6 +8,18 @@ const SearchParams = () => {
   const [breeds, setBreeds] = useState([]);
   const [animal, AnimalDropdown] = useDropdown("Animal", "cat", ANIMALS);
   const [breed, BreedDropdown, setBreed] = useDropdown("Breed", "", breeds);
+  const [pets, setPet] = useState([]);
+
+  // async always returns a promise
+  async function requestPets(){
+    const {animals} = await pet.animals({ // pet.animals returns a promise
+      location,
+      breed,
+      type: animal
+    })
+
+    setPet(animals || []); // set to animal to keep it as an empty array
+  }
 
   // Schedule to run after the render happens because you don't want to slow down the first render
   useEffect(() => {
@@ -23,7 +36,10 @@ const SearchParams = () => {
   return (
     <div className="search-params">
       <h1>{location}</h1>
-      <form>
+      <form onSubmit={(event) => {
+        event.preventDefault();
+        requestPets();
+      }}>
         <label htmlFor="location">
           Location:
           <input
@@ -60,6 +76,7 @@ const SearchParams = () => {
         </label> */}
         <button>Submit</button>
       </form>
+      <Results pets={pets} />
     </div >
   )
 }
