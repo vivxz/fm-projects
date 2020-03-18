@@ -1,0 +1,4 @@
+{
+  "presets": ["@babel/preset-react", "@babel/preset-env"], //[transpile JavaScript], [transpile our environment]
+  "plugins": ["@babel/plugin-proposal-class-properties"] // [allow us to use syntax in class]
+}
