@@ -1,6 +1,7 @@
 import React from 'react';
 import pet from '@frontendmasters/pet';
 import Carousel from './Carousel';
+import ErrorBoundary from './ErrorBoundary';
 
 class Details extends React.Component {
   // constructor(props) {
@@ -60,4 +61,11 @@ class Details extends React.Component {
 //   )
 // }
 
-export default Details
+export default function DetailsWithErrorBoundary(props) {
+  return (
+    <ErrorBoundary>
+      {/*spread the props across details –– used: component doesn't care about the props & just needs to pass it through*/}
+      <Details {...props} />
+    </ErrorBoundary>
+  );
+}
