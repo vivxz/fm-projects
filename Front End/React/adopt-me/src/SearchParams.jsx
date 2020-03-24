@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import pet, { ANIMALS } from "@frontendmasters/pet";
 import Results from './Results';
 import useDropdown from "./useDropdown.jsx";
+import ThemeContext from './ThemeContext';
 
 const SearchParams = () => {
   const [location, setLocation] = useState("San Francisco, CA");
@@ -9,10 +10,11 @@ const SearchParams = () => {
   const [animal, AnimalDropdown] = useDropdown("Animal", "cat", ANIMALS);
   const [breed, BreedDropdown, setBreed] = useDropdown("Breed", "", breeds);
   const [pets, setPet] = useState([]);
+  const [theme, setTheme] = useContext(ThemeContext); // useContext = hooks, to use it provider has to be parent
 
   // async always returns a promise
-  async function requestPets(){
-    const {animals} = await pet.animals({ // pet.animals returns a promise
+  async function requestPets() {
+    const { animals } = await pet.animals({ // pet.animals returns a promise
       location,
       breed,
       type: animal
@@ -50,6 +52,21 @@ const SearchParams = () => {
         </label>
         <AnimalDropdown />
         <BreedDropdown />
+        <label htmlFor="theme">
+          Theme
+          <select
+            value={theme}
+            onChange={event => setTheme(event.target.value)}
+            onBlur={event => setTheme(event.target.value)}>
+            {/* Not using a dropdown because it creates its own hooks –– we're using Apps hooks, not SearchParams' hooks */}
+            <option value="#FF9AA2">Light Salmon Pink</option>
+            <option value="#FFB7B2">Melon</option>
+            <option value="#FFDAC1">Very Pale Orange</option>
+            <option value="#E2F0CB">Light Lime Green</option>
+            <option value="#B5EAD7">Magic Mint</option>
+            <option value="#C7CEEA">Periwinkle</option>
+          </select>
+        </label>
         {/* <label htmlFor="animal">
           Animal:
           <select
@@ -74,7 +91,7 @@ const SearchParams = () => {
             {breeds.map(breedString => <option key={breedString} value={breedString}>{breedString}</option>)}
           </select>
         </label> */}
-        <button>Submit</button>
+        <button style={{ backgroundColor: theme }}>Submit</button>
       </form>
       <Results pets={pets} />
     </div >
