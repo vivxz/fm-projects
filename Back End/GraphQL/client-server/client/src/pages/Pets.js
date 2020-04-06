@@ -32,11 +32,14 @@ export default function Pets() {
   const [addPet, NewPet] = useMutation(CREATE_PET,
     // const [addPet, { data: results, loading: load, error: errors }] = useMutation(CREATE_PET);
     {
+      // Second argument of useMutation
       update(cache, { data: { addPet } }) {
+        // if pets wasn't deconstruct then we would use data.pets
         const { pets } = cache.readQuery({ query: ALL_PETS });
         cache.writeQuery({
           query: ALL_PETS,
-          data: { pets: [addPet].concat(pets) }
+          // data: { pets: [addPet].concat(pets) }
+          data: { pets: [addPet, ...pets] }
         })
       }
     });
