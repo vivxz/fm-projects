@@ -29,8 +29,17 @@ export default function Pets() {
   const { data, loading, error } = useQuery(ALL_PETS)
 
   // THESE ARE THE SAME THING
-  const [addPet, NewPet] = useMutation(CREATE_PET);
-  // const [addPet, { data: results, loading: load, error: errors }] = useMutation(CREATE_PET);
+  const [addPet, NewPet] = useMutation(CREATE_PET,
+    // const [addPet, { data: results, loading: load, error: errors }] = useMutation(CREATE_PET);
+    {
+      update(cache, { data: { addPet } }) {
+        const { pets } = cache.readQuery({ query: ALL_PETS });
+        cache.writeQuery({
+          query: ALL_PETS,
+          data: { pets: [addPet].concat(pets) }
+        })
+      }
+    });
 
   if (loading || NewPet.loading) return <Loader />;
   if (error || NewPet.error) return `Error! ${error.message}`;
