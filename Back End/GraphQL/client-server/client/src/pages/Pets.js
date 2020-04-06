@@ -42,9 +42,11 @@ export default function Pets() {
           data: { pets: [addPet, ...pets] }
         })
       }
+      //,optimisticResponse:{}
     });
 
-  if (loading || NewPet.loading) return <Loader />;
+  if (loading) return <Loader />; // removed NewPet.loading because we're using optimisticResponse now
+  // if (loading || NewPet.loading) return <Loader />;
   if (error || NewPet.error) return `Error! ${error.message}`;
   // if (loading || load) return <Loader />;
   // if (error || errors) return `Error! ${error.message}`;
@@ -52,7 +54,20 @@ export default function Pets() {
 
   const onSubmit = input => {
     setModal(false);
-    addPet({ variables: { newPet: input } })
+    addPet({
+      variables: { newPet: input },
+      // Add optimisticResponse:{} here if you need access to the variables
+      optimisticResponse: {
+        __typename: "Mutation",
+        addPet: {
+          id: "0123456789",
+          name: input.name,
+          type: input.type,
+          img: "https://images.unsplash.com/photo-1450778869180-41d0601e046e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+          __typename: "Pet"
+        }
+      }
+    })
   }
 
   if (modal) {
