@@ -5,24 +5,41 @@ import PetsList from '../components/PetsList'
 import NewPetModal from '../components/NewPetModal'
 import Loader from '../components/Loader'
 
-const ALL_PETS = gql`{
-  pets{
+// Creating a fragment –– DRY
+const PETS_FIELDS = gql`
+fragment PetsFields on Pet {
     id
     name
     type
     img
+    vaccinated @client
+    owner {
+      id
+      age @client
+    }
   }
-}`;
+`
+// @client tells it to only go the client, no where else; this is called directives
+
+const ALL_PETS = gql`
+  query AllPets {
+    pets{
+      ...PetsFields
+    }
+  }
+  ${PETS_FIELDS}
+`
+
 
 const CREATE_PET = gql`
   mutation CreatePet($newPet: NewPetInput!){
     addPet(input: $newPet){
-      id
-      name
-      type
-      img
-    }
-  }`
+      ...PetsField
+  }
+}
+${PETS_FIELDS}
+`
+
 
 export default function Pets() {
   const [modal, setModal] = useState(false)

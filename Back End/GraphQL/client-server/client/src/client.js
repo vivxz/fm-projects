@@ -13,12 +13,21 @@ const typeDefs = gql`
  extend type User {
    type: Int
  }
+
+ extend type Pet {
+   type: Boolean!
+ }
 `
 
 const resolvers = {
   User: {
     age() {
       return 35
+    }
+  },
+  Pet : {
+    vaccinated() {
+      return true;
     }
   }
 }
