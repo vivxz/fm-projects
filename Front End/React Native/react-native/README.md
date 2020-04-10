@@ -13,7 +13,7 @@
 
 ## Demo
 
-[![Color Palette Demo Video](./Demo.gif)]
+![Color Palette Demo Video](./Demo.gif)
 
 ## Setup
 Install Expo in App store or Play store and create an account
