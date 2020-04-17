@@ -1,5 +1,5 @@
 # mini-projects
-This is where I will be building small applications that will allow me to test and learn new techniques, features, and technology.
+This is where I will be building small applications that will allow me to test and learn new techniques, features, and technology that I learn through Front End Master, Udemy, Udacity, and more!
 
 ### Completed applications:  
 - [Adopt Me](https://github.com/vivxz/mini-projects/tree/master/Front%20End/React/adopt-me) — (in progress)
